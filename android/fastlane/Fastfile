@@ -1,0 +1,67 @@
+default_platform(:android)
+
+def build_release_bundle(options)
+  return if options[:skip_build]
+
+  api_url = options[:api_url] || ENV["KEYSTONE_API_URL"]
+  if api_url && !api_url.empty?
+    sh("cd ../.. && flutter build appbundle --release --dart-define=KEYSTONE_API_URL=#{api_url}")
+  else
+    sh("cd ../.. && flutter build appbundle --release")
+  end
+end
+
+def release_mapping_path
+  path = "../build/app/outputs/mapping/release/mapping.txt"
+  File.exist?(path) ? path : nil
+end
+
+platform :android do
+  desc "Build Flutter AAB and upload to Play Store Production track with R8 mapping, metadata & screenshots"
+  lane :upload_production do |options|
+    build_release_bundle(options)
+
+    has_screenshots = !Dir.glob("metadata/android/*/images/phoneScreenshots/*.png").empty?
+    status = options[:release_status] || 'draft'
+    upload_to_play_store(
+      track: 'production',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      mapping: release_mapping_path,
+      skip_upload_metadata: false,
+      skip_upload_images: false,
+      skip_upload_screenshots: !has_screenshots,
+      skip_upload_changelogs: false,
+      release_status: status
+    )
+  end
+
+  desc "Build Flutter AAB and upload to Play Store Internal Testing track"
+  lane :upload_internal do |options|
+    build_release_bundle(options)
+
+    upload_to_play_store(
+      track: 'internal',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      mapping: release_mapping_path,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      release_status: options[:release_status] || 'draft'
+    )
+  end
+
+  desc "Upload store metadata, feature graphic, icon, and screenshots without rebuilding AAB"
+  lane :upload_metadata do
+    has_screenshots = !Dir.glob("metadata/android/*/images/phoneScreenshots/*.png").empty?
+    upload_to_play_store(
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_metadata: false,
+      skip_upload_images: false,
+      skip_upload_screenshots: !has_screenshots,
+      skip_upload_changelogs: true
+    )
+  end
+end
+

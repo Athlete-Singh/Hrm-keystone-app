@@ -1,0 +1,5 @@
+• Initial release of Keystone Employee for Android
+• Interactive OpenStreetMap & OSRM Open Router office geofence and field-visit mapping
+• Mobile, selfie, and biometric attendance punch support
+• Leave requests, monthly payslips, company documents, weekly timesheets, and HR helpdesk
+

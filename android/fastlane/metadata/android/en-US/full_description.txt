@@ -1,0 +1,11 @@
+Keystone Employee brings your entire workplace to your phone in one unified workspace.
+
+Key capabilities:
+• Smart Attendance & Clock-In: Punch in and out via Mobile, Selfie Verification, Biometric Face ID / Fingerprint, or Field GPS check-in.
+• Real OpenStreetMap & OpenRouter Geofencing: Live interactive street maps with office geofence radius verification, field-visit route visualization, and distance/ETA estimates.
+• Leave & Holidays: View remaining leave balances, submit Annual/Sick/Personal leave requests, track manager approvals, and view company holiday calendars.
+• Payslips & Documents: Access monthly payslips with gross/deductions/net breakdown and view HR policy or onboarding documents.
+• Weekly Timesheets & HR Helpdesk: Submit weekly project timesheets and raise or follow up on HR/payroll support tickets directly inside the app.
+
+Note: Requires an active employee account provided by your organization on Keystone HRM.
+
