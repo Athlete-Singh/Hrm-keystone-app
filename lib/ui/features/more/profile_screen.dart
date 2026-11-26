@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    super.initState();git 
+    super.initState();
     _phoneCtrl = TextEditingController(text: widget.appState.profile?.phone ?? '');
     _addressCtrl = TextEditingController(text: widget.appState.profile?.homeAddress ?? '');
   }

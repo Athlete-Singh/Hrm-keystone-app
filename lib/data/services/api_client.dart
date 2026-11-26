@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiException implements Exception {
-  const ApiException(this.message, {this.statusCode});
+  const ApiException(this.message, {this.statusCode, this.code});
 
   final String message;
   final int? statusCode;
+  final String? code;
 
   @override
   String toString() => message;
@@ -207,6 +208,7 @@ class ApiClient {
     }
 
     String message = 'Request failed (${response.statusCode})';
+    String? code;
     if (parsed is Map<String, dynamic>) {
       final err = parsed['message'];
       if (err is List && err.isNotEmpty) {
@@ -214,8 +216,11 @@ class ApiClient {
       } else if (err != null) {
         message = err.toString();
       }
+      if (parsed['code'] != null) {
+        code = parsed['code'].toString();
+      }
     }
-    throw ApiException(message, statusCode: response.statusCode);
+    throw ApiException(message, statusCode: response.statusCode, code: code);
   }
 }
 
